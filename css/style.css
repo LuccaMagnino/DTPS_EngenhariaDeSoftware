@@ -1,0 +1,174 @@
+/**
+ * ESTILOS WORDLE MULTI
+ * DTP 01: MVC - CSS separado em arquivo dedicado
+ */
+
+:root {
+    --color-correct: #538d4e;
+    --color-present: #b59f3b;
+    --color-absent: #3a3a3c;
+    --color-bg: #121213;
+    --color-text: #ffffff;
+    --color-text-secondary: #818384;
+    --color-border: #3a3a3c;
+    --color-card-bg: #272729;
+    
+    --tile-size: 55px;
+    --tile-gap: 5px;
+    --border-radius: 5px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+/* ===== TELA INICIAL ===== */
+#tela-inicio {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#tela-inicio h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+#tela-inicio p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: var(--color-text-secondary);
+}
+
+/* ===== BOTÕES ===== */
+.btn-idioma {
+    background: var(--color-correct);
+    color: var(--color-text);
+    border: none;
+    padding: 15px 40px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-idioma:hover {
+    background: #3d6a39;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-idioma:active {
+    transform: translateY(0);
+}
+
+/* ===== TELA JOGO ===== */
+#tela-jogo {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.instrucoes {
+    max-width: 400px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    padding: 10px 0;
+}
+
+/* ===== STATS CONTAINER ===== */
+.stats-container {
+    display: flex;
+    gap: 40px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    background: var(--color-card-bg);
+    padding: 15px 30px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+
+/* ===== BOARD (GRID) ===== */
+.grid {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: var(--tile-gap);
+    padding: 10px;
+}
+
+.linha {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--tile-gap);
+}
+
+/* ===== TILES ===== */
+.tile {
+    width: var(--tile-size);
+    height: var(--tile-size);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: default;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.tile:not(:empty) {
+    border-color: var(--color-text-secondary);
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    #tela-inicio h1 {
+        font-size: 2.5rem;
+    }
+
+    .tile {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+    }
+
+    .stats-container {
+        gap: 20px;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .btn-idioma {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}
