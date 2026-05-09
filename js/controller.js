@@ -23,29 +23,9 @@ class GameController {
      * Configura listeners de eventos
      */
     setupEventListeners() {
-        // Listeners para botões de idioma
-        const portugueseButton = document.querySelector('[onclick*="startGameWithLanguage(\'pt\')"]') || 
-                                 this.findButtonByText('Português');
-        const englishButton = document.querySelector('[onclick*="startGameWithLanguage(\'en\')"]') || 
-                             this.findButtonByText('English');
-        
-        if (portugueseButton) {
-            portugueseButton.addEventListener('click', () => this.startGameWithLanguage('pt'));
-        }
-        if (englishButton) {
-            englishButton.addEventListener('click', () => this.startGameWithLanguage('en'));
-        }
-        
-        // Listener para teclado
-        window.addEventListener('keydown', (event) => this.handleKeyPress(event));
-    }
-    
-    /**
-     * Auxilia a encontrar botões pelo texto (fallback)
-     */
-    findButtonByText(text) {
-        const buttons = document.querySelectorAll('.btn-idioma');
-        return Array.from(buttons).find(btn => btn.innerText.includes(text));
+
+        // Listener para teclado (usando document para evitar duplicação)
+        document.addEventListener('keydown', (event) => this.handleKeyPress(event));
     }
     
     /**
@@ -53,10 +33,12 @@ class GameController {
      * @param {string} language - 'pt' ou 'en'
      */
     startGameWithLanguage(language) {
+        console.log('Iniciando jogo com idioma:', language);
         this.model.startGame(language);
         this.view.showGameScreen();
         this.view.updateInstructions(language);
         this.view.renderBoard();
+        console.log('Board renderizado, estado inicial:', this.model.getState());
         this.refreshUI();
     }
     
@@ -65,14 +47,17 @@ class GameController {
      * @param {KeyboardEvent} event - Evento de teclado
      */
     handleKeyPress(event) {
+        console.log('Evento keydown detectado:', event.key, 'Estado do jogo:', this.model.getState());
         const state = this.model.getState();
         
         // Se jogo não começou ou terminou, ignora
         if (!state.selectedLanguage || state.gameOver) {
+            console.log('Ignorando tecla - jogo não iniciado ou terminado');
             return;
         }
         
         const key = event.key.toUpperCase();
+        console.log('Tecla pressionada:', key);
         
         // Tecla Backspace
         if (key === 'BACKSPACE') {
@@ -96,11 +81,15 @@ class GameController {
      * @param {string} letter - Letra pressionada
      */
     handleLetterPress(letter) {
+        console.log('Tentando adicionar letra:', letter, 'Estado atual:', this.model.getState());
         const state = this.model.getState();
         const success = this.model.addLetter(letter);
+        console.log('Sucesso ao adicionar:', success, 'Nova coluna:', this.model.currentColumn);
         
         if (success) {
-            this.view.updateTile(state.currentRow, state.currentColumn - 1, letter);
+            // Usa a coluna original (antes do incremento) para posicionar a tile
+            this.view.updateTile(state.currentRow, state.currentColumn, letter);
+            console.log('Tile atualizada na posição:', state.currentRow, state.currentColumn);
         }
     }
     
@@ -124,6 +113,9 @@ class GameController {
         
         // Verifica se palavra está completa
         if (!this.model.isWordComplete()) {
+            const incompleteMessage = GameConfig.MESSAGES[state.selectedLanguage].incompleteWord || 
+                                    (state.selectedLanguage === 'pt' ? 'Palavra incompleta! Digite 5 letras.' : 'Incomplete word! Type 5 letters.');
+            this.view.showMessage(incompleteMessage);
             return;
         }
         
@@ -170,7 +162,7 @@ class GameController {
 document.addEventListener('DOMContentLoaded', () => {
     const gameController = new GameController(gameModel, gameView);
     
-    // Expõe função global para onclick dos botões
+    // Expõe função global para onclick dos botões (fallback)
     window.startGameWithLanguage = (language) => {
         gameController.startGameWithLanguage(language);
     };

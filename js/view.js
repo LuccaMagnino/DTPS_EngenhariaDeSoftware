@@ -31,8 +31,12 @@ class GameView {
      * Exibe tela de jogo
      */
     showGameScreen() {
+        console.log('Exibindo tela de jogo');
         this.startScreen.style.display = 'none';
         this.gameScreen.style.display = 'flex';
+        // Torna focável e foca para capturar teclas
+        this.gameScreen.setAttribute('tabindex', '0');
+        this.gameScreen.focus();
     }
     
     /**
@@ -72,9 +76,12 @@ class GameView {
      * @param {string} letter - Letra a exibir
      */
     updateTile(row, col, letter) {
+        console.log('Atualizando tile:', row, col, 'com letra:', letter);
         const tileElement = document.getElementById(`tile-${row}-${col}`);
         if (tileElement) {
             tileElement.innerText = letter;
+        } else {
+            console.error('Tile não encontrada:', `tile-${row}-${col}`);
         }
     }
     

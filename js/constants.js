@@ -24,7 +24,8 @@ const GameConfig = {
             correctAnswer: "Acertou!",
             gameOver: "Fim/End! Word: ",
             score: "SCORE",
-            round: "RODADA/ROUND"
+            round: "RODADA/ROUND",
+            incompleteWord: "Palavra incompleta! Digite 5 letras."
         },
         en: {
             title: "WORDLE ENG",
@@ -35,7 +36,8 @@ const GameConfig = {
             correctAnswer: "Correct!",
             gameOver: "Game Over! Word: ",
             score: "SCORE",
-            round: "ROUND"
+            round: "ROUND",
+            incompleteWord: "Incomplete word! Type 5 letters."
         }
     },
     
