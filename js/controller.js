@@ -7,6 +7,9 @@
  * - Chamar métodos do Model
  * - Atualizar a View com resultados
  * - Coordenar fluxo do jogo
+ * 
+ * PATTERN: Observer Pattern (para eventos)
+ * PATTERN: Mediator Pattern (entre Model e View)
  */
 
 class GameController {
